@@ -1,16 +1,23 @@
 import { handleProjSubmit, handleEditProjSubmit } from "./helper.js";
-import { addProjBtn, projContent, contentHeader } from "./index.js";
+import { addProjBtn, projContent, contentHeader, taskNav } from "./index.js";
 
 const DOMController = (function() {
     
     const loadTaskHeader = () => {
         const taskHeader = document.createElement("h1");
-        taskHeader.textContent = "All Tasks";
+        taskHeader.textContent = "Solo Tasks";
         contentHeader.appendChild(taskHeader);
     }
 
     const removeContentHeader = () => {
         contentHeader.textContent = "";
+    }
+
+    const activateTaskNav = () => {
+        taskNav.addEventListener("click", () => {
+            removeContentHeader();
+            loadTaskHeader();
+        });
     }
 
     const activateAddProjBtn = () => {
@@ -104,7 +111,7 @@ const DOMController = (function() {
 
     return {
         loadTaskHeader, generateProjBox, generateProjList, activateAddProjBtn, eraseProjList, activateEditProjListener, 
-        generateCurrentProjBox
+        generateCurrentProjBox, activateTaskNav
     }
 })();
 

@@ -19,9 +19,11 @@ const content = document.getElementById("content");
 const addProjBtn = document.getElementById("add-proj-btn");
 const projContent = document.getElementById("proj-content");
 const contentHeader = document.getElementById("content-header");
+const taskNav = document.getElementById("task-nav");
 DOMController.loadTaskHeader();
 addDefaultProj();
 printDefaultProj();
+DOMController.activateTaskNav();
 DOMController.activateAddProjBtn();
 
-export { navBar, content, addProjBtn, projContent, contentHeader };
+export { navBar, content, addProjBtn, projContent, contentHeader, taskNav };
