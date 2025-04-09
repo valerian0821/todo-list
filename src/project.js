@@ -1,13 +1,13 @@
 
 export class Project {
-    constructor(id, name, toDo) {
+    constructor(id, name, tasks) {
         this.id = id;
         this.name = name;
-        this.toDo = toDo;
+        this.tasks = tasks;
     }
 
     addToDoItem(item) {
-        this.toDo.append(item);
+        this.tasks.append(item);
     }
 }
 
@@ -17,9 +17,9 @@ const ProjectModule = (function () {
     const getProjectList = () => projectList;
 
     const addProject = (name) => {
-        const toDo = [];
+        const tasks = [];
         let newID = crypto.randomUUID();
-        const project = new Project(newID, name, toDo);
+        const project = new Project(newID, name, tasks);
         projectList.push(project);
     }
 
