@@ -23,8 +23,17 @@ const ProjectModule = (function () {
         projectList.push(project);
     }
 
+    const changeProjName = (projID, projName) => {
+        for (let i = 0; i < projectList.length; i++) {
+            if (projID === projectList[i].id) {
+                projectList[i].name = projName;
+                break;
+            }
+        }
+    }
+
     return {
-        getProjectList, addProject
+        getProjectList, addProject, changeProjName
     }
 })();
 

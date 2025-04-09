@@ -1,4 +1,4 @@
-import { handleNewProjSubmit } from "./helper.js";
+import { handleProjSubmit, handleEditProjSubmit } from "./helper.js";
 import { addProjBtn, projContent, contentHeader } from "./index.js";
 
 const DOMController = (function() {
@@ -14,24 +14,22 @@ const DOMController = (function() {
     }
 
     const activateAddProjBtn = () => {
-        addProjBtn.addEventListener("click", createNewProjDialog);
+        addProjBtn.addEventListener("click", () => {
+            createProjDialog();
+            activateProjFormListener();
+        });
     }
 
-    const createNewProjDialog = () => {
-        const newProjDialog = document.createElement("dialog");
-        newProjDialog.id = "new-proj-dialog";
-        newProjDialog.innerHTML = createNewProjForm();
-        projContent.appendChild(newProjDialog);
-        activateNewProjFormListener();
-        newProjDialog.showModal();
+    const createProjDialog = () => {
+        const projDialog = document.createElement("dialog");
+        projDialog.innerHTML = createProjForm();
+        projContent.appendChild(projDialog);
+        projDialog.showModal();
     }
 
-    const createNewProjForm = () => {
+    const createProjForm = () => {
         let innerDialog = `
-            <form id="new-proj-form" method="post">
-                <div>
-                    <h2>Add New Project</h2>
-                </div>
+            <form id="proj-form" method="post">
                 <div>
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" required>
@@ -43,12 +41,21 @@ const DOMController = (function() {
         return innerDialog;
     }
 
-    const activateNewProjFormListener = () => {
-        const newProjForm = document.getElementById("new-proj-form");
-        newProjForm.addEventListener("submit", handleNewProjSubmit);
+    const activateProjFormListener = () => {
+        const projForm = document.getElementById("proj-form");
+        projForm.addEventListener("submit", handleProjSubmit);
     }
 
-    const generateProjBox = (projName, projNumber) => {
+    const activateEditProjListener = (projID) => {
+        const projForm = document.getElementById("proj-form");
+        projForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const formData = new FormData(projForm);
+            handleEditProjSubmit(projID, formData);
+        });
+    }
+
+    const generateProjBox = (projName, projNumber, projID) => {
         const projBox = document.createElement("div");
         projBox.classList.add("projBox");
         projContent.appendChild(projBox);
@@ -58,22 +65,36 @@ const DOMController = (function() {
         projBox.appendChild(projText);
 
         projText.addEventListener("click", () => {
-            generateCurrentProjHeader(projName);
+            generateCurrentProjBox(projName, projID);
         });
     }
 
-    const generateCurrentProjHeader = (projName) => {
+    const generateCurrentProjBox = (projName, projID) => {
         removeContentHeader();
+
         const projHeader = document.createElement("h1");
         projHeader.textContent = projName;
         contentHeader.appendChild(projHeader);
+
+        const projEditBtn = document.createElement("button");
+        projEditBtn.textContent = "Edit";
+        contentHeader.appendChild(projEditBtn);
+        projEditBtn.addEventListener("click", () => {
+            editProjName(projID);
+        })
+    }
+
+    const editProjName = (projID) => {
+        createProjDialog();
+        activateEditProjListener(projID);
     }
 
     const generateProjList = (projList) => {
         for (let i = 0; i < projList.length; i++) {
             let projNumber = i + 1;
             let projName = projList[i].name;
-            generateProjBox(projName, projNumber);
+            let projID = projList[i].id;
+            generateProjBox(projName, projNumber, projID);
         }
     }
 
@@ -82,7 +103,8 @@ const DOMController = (function() {
     }
 
     return {
-        loadTaskHeader, generateProjBox, generateProjList, activateAddProjBtn, eraseProjList
+        loadTaskHeader, generateProjBox, generateProjList, activateAddProjBtn, eraseProjList, activateEditProjListener, 
+        generateCurrentProjBox
     }
 })();
 
