@@ -10,7 +10,6 @@ body {
     display: grid;
     width: 100vw;
     height: 100vh;
-    grid-template-rows: 1fr 4fr;
     grid-template-columns: 1fr 3fr;
 }
 
@@ -20,9 +19,19 @@ div {
 
 h1 {
     font-weight: bold;
-    font-size: 4rem;
+    font-size: 3rem;
 }
 
 .proj-box {
     border: 1px solid black;
+}
+
+#nav-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#proj-header {
+    display: flex;
 }

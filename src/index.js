@@ -14,7 +14,14 @@ function printDefaultProj() {
     DOMController.generateProjList(projList);
 }
 
-const projContent = document.getElementById("proj-list");
+const navBar = document.getElementById("nav-bar");
+const content = document.getElementById("content");
+const addProjBtn = document.getElementById("add-proj-btn");
+const projContent = document.getElementById("proj-content");
+const contentHeader = document.getElementById("content-header");
+DOMController.loadTaskHeader();
 addDefaultProj();
 printDefaultProj();
-export { projContent };
+DOMController.activateAddProjBtn();
+
+export { navBar, content, addProjBtn, projContent, contentHeader };
