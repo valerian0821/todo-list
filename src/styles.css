@@ -35,3 +35,17 @@ h1 {
 #proj-header {
     display: flex;
 }
+
+#task-box {
+    display: flex;
+    gap: 10px;
+}
+
+#priority-box {
+    width: 5px;
+    height: 5px;
+}
+
+#edit-del-box {
+    display: flex;
+}

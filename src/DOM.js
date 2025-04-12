@@ -1,7 +1,8 @@
-import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit } from "./helper.js";
+import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, getTaskList } from "./helper.js";
 import { addProjBtn, projContent, contentHeader, taskNav, taskContent, taskBtnSect} from "./index.js";
 
 const DOMController = (function() {
+    let currentProjID = "solo";
     
     const loadTaskHeader = () => {
         const taskHeader = document.createElement("h1");
@@ -72,10 +73,13 @@ const DOMController = (function() {
         projBox.appendChild(projText);
 
         projText.addEventListener("click", () => {
-            generateCurrentProjBox(projName, projID);
+            eraseTaskList();
+            changeCurrentProjID(projID);
+            generateCurrentProjBox(projName, currentProjID);
             taskBtnSect.textContent = "";
             loadAddTaskBtn();
-            activateAddTaskBtn(projID);
+            activateAddTaskBtn(currentProjID);
+            generateTaskList(getTaskList());
         });
 
     }
@@ -113,27 +117,70 @@ const DOMController = (function() {
         projContent.textContent = "";
     }
 
-    const generateTaskBox = () => {
+    const changeCurrentProjID = (projID) => {
+        currentProjID = projID;
+    }
+
+    const generateTaskBox = (taskProjID, taskID, taskName, taskDescription, taskDueDate, taskPriority) => {
         
         //Create taskbox
         const taskBox = document.createElement("div");
+        taskBox.id = "task-box";
         taskContent.appendChild(taskBox);
 
         //Create checkbox
         const checkboxDiv = document.createElement("div");
-        taskContent.appendChild(checkboxDiv);
+        taskBox.appendChild(checkboxDiv);
+        
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkboxDiv.appendChild(checkbox);
 
         //Create priority color display
         const priorityDiv = document.createElement("div");
-        taskContent.appendChild(priorityDiv);
+        priorityDiv.id = "priority-box";
+        taskBox.appendChild(priorityDiv);
 
         //Create title and dueDate display
         const displayDiv = document.createElement("div");
-        taskContent.appendChild(displayDiv);
-        
+        taskBox.appendChild(displayDiv);
+
+        const title = document.createElement("p");
+        title.textContent = taskName;
+        displayDiv.appendChild(title);
+
+        const dueDate = document.createElement("p");
+        dueDate.textContent = taskDueDate;
+        displayDiv.appendChild(dueDate);
+
+        //Create edit and delete button
+        const editDelDiv = document.createElement("div");
+        taskBox.appendChild(editDelDiv);
+
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "E";
+        editDelDiv.appendChild(editBtn);
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "D";
+        editDelDiv.appendChild(delBtn);
+    }
+
+    const generateTaskList = (taskList) => {
+        const currentTaskList = getCurrentTaskList(taskList);
+        for (let i = 0; i < currentTaskList.length; i++) {
+            let taskProjID = currentTaskList[i].projID;
+            let taskID = currentTaskList[i].taskID;
+            let taskName = currentTaskList[i].title;
+            let taskDescription = currentTaskList[i].description;
+            let taskDueDate = currentTaskList[i].dueDate;
+            let taskPriority = currentTaskList[i].priority;
+            generateTaskBox(taskProjID, taskID, taskName, taskDescription, taskDueDate, taskPriority);
+        }
+    }
+
+    const getCurrentTaskList = (taskList) => {
+        return taskList.filter(task => task.projID === currentProjID);
     }
 
     const loadAddTaskBtn = () => {
@@ -200,9 +247,13 @@ const DOMController = (function() {
         });
     }
 
+    const eraseTaskList = () => {
+        taskContent.textContent = "";
+    }
+
     return {
         loadTaskHeader, generateProjBox, generateProjList, activateAddProjBtn, eraseProjList, activateEditProjListener, 
-        generateCurrentProjBox, activateTaskNav, loadAddTaskBtn, activateAddTaskBtn
+        generateCurrentProjBox, activateTaskNav, loadAddTaskBtn, activateAddTaskBtn, generateTaskList, eraseTaskList
     }
 })();
 
