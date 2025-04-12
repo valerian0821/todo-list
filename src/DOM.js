@@ -16,8 +16,15 @@ const DOMController = (function() {
 
     const activateTaskNav = () => {
         taskNav.addEventListener("click", () => {
+            let projID = "solo";
             removeContentHeader();
             loadTaskHeader();
+            eraseTaskList();
+            changeCurrentProjID(projID);
+            taskBtnSect.textContent = "";
+            loadAddTaskBtn();
+            activateAddTaskBtn(currentProjID);
+            generateTaskList(getTaskList());
         });
     }
 
