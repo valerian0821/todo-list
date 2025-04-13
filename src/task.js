@@ -42,8 +42,17 @@ const TaskModule = (function () {
         }
     }
 
+    const delTask = (taskID) => {
+        for (let i = 0; i < taskList.length; i++) {
+            if (taskID === taskList[i].taskID) {
+                taskList.splice(i, 1);
+                break;
+            }
+        }
+    }
+
     return {
-        getTaskList, addTask, delProjectTasks, editTask
+        getTaskList, addTask, delProjectTasks, editTask, delTask
     }
 })();
 

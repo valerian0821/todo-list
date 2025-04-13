@@ -55,3 +55,7 @@ export function delProj(projID) {
 export function delProjTasks(projID) {
     TaskModule.delProjectTasks(projID);
 }
+
+export function delTask(taskID) {
+    TaskModule.delTask(taskID);
+}

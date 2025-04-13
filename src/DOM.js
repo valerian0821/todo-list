@@ -1,4 +1,4 @@
-import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, handleEditTaskSubmit, getTaskList, delProj, getProjList, delProjTasks } from "./helper.js";
+import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, handleEditTaskSubmit, getTaskList, delProj, getProjList, delProjTasks, delTask } from "./helper.js";
 import { addProjBtn, projContent, contentHeader, taskNav, taskContent, taskBtnSect} from "./index.js";
 import { ProjectModule } from "./project.js";
 import { TaskModule } from "./task.js";
@@ -197,6 +197,11 @@ const DOMController = (function() {
         const delBtn = document.createElement("button");
         delBtn.textContent = "D";
         editDelDiv.appendChild(delBtn);
+        delBtn.addEventListener("click", () => {
+            delTask(taskID);
+            eraseTaskList();
+            generateTaskList(getTaskList());
+        });
     }
 
     const generateTaskList = (taskList) => {
