@@ -26,6 +26,18 @@ h1 {
     border: 1px solid black;
 }
 
+.low-priority {
+    background-color: green;
+}
+
+.medium-priority {
+    background-color: yellow;
+}
+
+.high-priority {
+    background-color: red;
+}
+
 #nav-bar {
     display: flex;
     flex-direction: column;

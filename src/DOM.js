@@ -182,6 +182,7 @@ const DOMController = (function() {
         //Create priority color display
         const priorityDiv = document.createElement("div");
         priorityDiv.id = "priority-box";
+        setPriorityColor(taskPriority, priorityDiv);
         taskBox.appendChild(priorityDiv);
 
         //Create title and dueDate display
@@ -220,6 +221,19 @@ const DOMController = (function() {
     const determineCheckStatus = (taskComplete, checkbox) => {
         if (taskComplete) {
             checkbox.defaultChecked = true;
+        }
+    }
+
+    const setPriorityColor = (taskPriority, priorityDiv) => {
+        priorityDiv.classList.toggle("low-priority", false);
+        priorityDiv.classList.toggle("medium-priority", false);
+        priorityDiv.classList.toggle("high-priority", false);
+        if (taskPriority === "low") {
+            priorityDiv.classList.toggle("low-priority", true);
+        } else if (taskPriority === "medium") {
+            priorityDiv.classList.toggle("medium-priority", true);
+        } else {
+            priorityDiv.classList.toggle("high-priority", true);
         }
     }
 
