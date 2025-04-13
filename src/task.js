@@ -30,8 +30,20 @@ const TaskModule = (function () {
         }
     }
 
+    const editTask = (taskID, title, description, dueDate, priority) => {
+        for (let i = 0; i < taskList.length; i++) {
+            if (taskID === taskList[i].taskID) {
+                taskList[i].title = title;
+                taskList[i].description = description;
+                taskList[i].dueDate = dueDate;
+                taskList[i].priority = priority;
+                break;
+            }
+        }
+    }
+
     return {
-        getTaskList, addTask, delProjectTasks
+        getTaskList, addTask, delProjectTasks, editTask
     }
 })();
 

@@ -30,6 +30,16 @@ export function handleTaskSubmit(projID, formData) {
     DOMController.generateTaskList(getTaskList());
 }
 
+export function handleEditTaskSubmit(taskID, formData) {
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const dueDate = formData.get("due-date");
+    const priority = formData.get("priority");
+    TaskModule.editTask(taskID, title, description, dueDate, priority);
+    DOMController.eraseTaskList();
+    DOMController.generateTaskList(getTaskList());
+}
+
 export function getProjList() {
     return ProjectModule.getProjectList();
 }

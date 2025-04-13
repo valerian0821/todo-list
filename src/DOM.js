@@ -1,4 +1,4 @@
-import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, getTaskList, delProj, getProjList, delProjTasks } from "./helper.js";
+import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, handleEditTaskSubmit, getTaskList, delProj, getProjList, delProjTasks } from "./helper.js";
 import { addProjBtn, projContent, contentHeader, taskNav, taskContent, taskBtnSect} from "./index.js";
 import { ProjectModule } from "./project.js";
 import { TaskModule } from "./task.js";
@@ -190,6 +190,9 @@ const DOMController = (function() {
         const editBtn = document.createElement("button");
         editBtn.textContent = "E";
         editDelDiv.appendChild(editBtn);
+        editBtn.addEventListener("click", () => {
+            editTask(taskID, taskName, taskDescription, taskDueDate, taskPriority);
+        });
 
         const delBtn = document.createElement("button");
         delBtn.textContent = "D";
@@ -228,35 +231,35 @@ const DOMController = (function() {
         });
     }
 
-    const createTaskDialog = () => {
+    const createTaskDialog = (title, description, dueDate, priority) => {
         const taskDialog = document.createElement("dialog");
-        taskDialog.innerHTML = createTaskForm();
+        taskDialog.innerHTML = createTaskForm(title, description, dueDate, priority);
         taskContent.appendChild(taskDialog);
         taskDialog.showModal();
         return taskDialog;
     }
 
-    const createTaskForm = () => {
+    const createTaskForm = (title = "", description = "", dueDate = "", priority = "") => {
         let innerDialog = `
             <form id="task-form" method="dialog">
                 <div>
                     <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required>        
+                    <input type="text" id="title" name="title" value="${title}" required>        
                 </div>
                 <div>
                     <label for="description">Description:</label>
-                    <input type="textarea" id="description" name="description" rows="5" cols="40" required>
+                    <textarea id="description" name="description" rows="5" cols="40">${description}</textarea>
                 </div>
                 <div>
                     <label for="due-date">Due Date:</label>
-                    <input type="date" id="due-date" name="due-date">
+                    <input type="date" id="due-date" name="due-date" value="${dueDate}">
                 </div>
                 <div>
                     <label for="priority">Priority:</label>
                     <select id="priority" name="priority" required>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
+                        <option value="low" ${priority === "low" ? "selected" : ""}>Low</option>
+                        <option value="medium" ${priority === "medium" ? "selected" : ""}>Medium</option>
+                        <option value="high" ${priority === "high" ? "selected" : ""}>High</option>
                     </select>
                 </div>
                 <div>
@@ -266,12 +269,28 @@ const DOMController = (function() {
         return innerDialog;
     }
 
+    const editTask = (taskID, title, description, dueDate, priority) => {
+        const taskDialog = createTaskDialog(title, description, dueDate, priority);
+        activateEditTaskFormListener(taskID, taskDialog);
+    }
+
     const activateTaskFormListener = (projID, taskDialog) => {
         const taskForm = document.getElementById("task-form");
         taskForm.addEventListener("submit", (event) => {
             event.preventDefault();
             const formData = new FormData(taskForm);
             handleTaskSubmit(projID, formData);
+            taskDialog.close();
+            taskDialog.remove();
+        });
+    }
+
+    const activateEditTaskFormListener = (taskID, taskDialog) => {
+        const taskForm = document.getElementById("task-form");
+        taskForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const formData = new FormData(taskForm);
+            handleEditTaskSubmit(taskID, formData);
             taskDialog.close();
             taskDialog.remove();
         });
