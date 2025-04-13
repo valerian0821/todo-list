@@ -49,11 +49,20 @@ const DOMController = (function() {
         projDialog.innerHTML = createProjForm(projName);
         projContent.appendChild(projDialog);
         projDialog.showModal();
+        const projCloseBtn = document.getElementById("close-proj-btn");
+        projCloseBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            projDialog.close();
+            projDialog.remove();
+        });
     }
 
     const createProjForm = (projName = "") => {
         let innerDialog = `
-            <form id="proj-form" method="dialog">
+            <form id="proj-form" method="post">
+                <div>
+                    <button type="button" id="close-proj-btn">X</button>
+                </div>
                 <div>
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" value="${projName}"required>
@@ -241,12 +250,21 @@ const DOMController = (function() {
         taskDialog.innerHTML = createTaskForm(title, description, dueDate, priority);
         taskContent.appendChild(taskDialog);
         taskDialog.showModal();
+        const taskCloseBtn = document.getElementById("close-task-btn");
+        taskCloseBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            taskDialog.close();
+            taskDialog.remove();
+        })
         return taskDialog;
     }
 
     const createTaskForm = (title = "", description = "", dueDate = "", priority = "") => {
         let innerDialog = `
-            <form id="task-form" method="dialog">
+            <form id="task-form" method="post">
+                <div>
+                    <button type="button" id="close-task-btn">X</button>
+                </div>
                 <div>
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" value="${title}" required>        
