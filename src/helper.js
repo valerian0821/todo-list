@@ -26,7 +26,6 @@ export function handleTaskSubmit(projID, formData) {
     const dueDate = formData.get("due-date");
     const priority = formData.get("priority");
     TaskModule.addTask(projID, taskName, description, dueDate, priority);
-    console.log(getTaskList());
     DOMController.eraseTaskList();
     DOMController.generateTaskList(getTaskList());
 }

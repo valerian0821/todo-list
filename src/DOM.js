@@ -35,19 +35,19 @@ const DOMController = (function() {
         });
     }
 
-    const createProjDialog = () => {
+    const createProjDialog = (projName) => {
         const projDialog = document.createElement("dialog");
-        projDialog.innerHTML = createProjForm();
+        projDialog.innerHTML = createProjForm(projName);
         projContent.appendChild(projDialog);
         projDialog.showModal();
     }
 
-    const createProjForm = () => {
+    const createProjForm = (projName = "") => {
         let innerDialog = `
             <form id="proj-form" method="dialog">
                 <div>
                     <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required>
+                    <input type="text" id="title" name="title" value="${projName}"required>
                 </div>
                 <div>
                     <button type="submit">Enter</button>
@@ -102,12 +102,12 @@ const DOMController = (function() {
         projEditBtn.textContent = "Edit";
         contentHeader.appendChild(projEditBtn);
         projEditBtn.addEventListener("click", () => {
-            editProjName(projID);
+            editProjName(projID, projName);
         })
     }
 
-    const editProjName = (projID) => {
-        createProjDialog();
+    const editProjName = (projID, projName) => {
+        createProjDialog(projName);
         activateEditProjListener(projID);
     }
 
