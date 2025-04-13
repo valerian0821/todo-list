@@ -32,8 +32,13 @@ const ProjectModule = (function () {
         }
     }
 
+    const delProj = (projID) => {
+        const index = projectList.findIndex(project => project.id === projID);
+        if (index !== -1) projectList.splice(index, 1);
+    }
+
     return {
-        getProjectList, addProject, changeProjName
+        getProjectList, addProject, changeProjName, delProj
     }
 })();
 

@@ -30,6 +30,18 @@ export function handleTaskSubmit(projID, formData) {
     DOMController.generateTaskList(getTaskList());
 }
 
+export function getProjList() {
+    return ProjectModule.getProjectList();
+}
+
 export function getTaskList() {
     return TaskModule.getTaskList();
+}
+
+export function delProj(projID) {
+    ProjectModule.delProj(projID);
+}
+
+export function delProjTasks(projID) {
+    TaskModule.delProjectTasks(projID);
 }

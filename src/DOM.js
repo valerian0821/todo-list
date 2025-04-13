@@ -1,5 +1,7 @@
-import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, getTaskList } from "./helper.js";
+import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, getTaskList, delProj, getProjList, delProjTasks } from "./helper.js";
 import { addProjBtn, projContent, contentHeader, taskNav, taskContent, taskBtnSect} from "./index.js";
+import { ProjectModule } from "./project.js";
+import { TaskModule } from "./task.js";
 
 const DOMController = (function() {
     let currentProjID = "solo";
@@ -103,7 +105,21 @@ const DOMController = (function() {
         contentHeader.appendChild(projEditBtn);
         projEditBtn.addEventListener("click", () => {
             editProjName(projID, projName);
-        })
+        });
+
+        const projDelBtn = document.createElement("button");
+        projDelBtn.textContent = "Delete";
+        contentHeader.appendChild(projDelBtn);
+        projDelBtn.addEventListener("click", () => {
+            delProj(projID);
+            delProjTasks(projID);
+            eraseTaskList();
+            taskBtnSect.textContent = "";
+            removeContentHeader();
+            changeCurrentProjID("");
+            eraseProjList();
+            generateProjList(getProjList());
+        });
     }
 
     const editProjName = (projID, projName) => {
