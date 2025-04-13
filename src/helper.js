@@ -59,3 +59,7 @@ export function delProjTasks(projID) {
 export function delTask(taskID) {
     TaskModule.delTask(taskID);
 }
+
+export function changeCompleteStatus(taskID) {
+    TaskModule.changeCompleteStatus(taskID);
+}

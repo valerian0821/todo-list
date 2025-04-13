@@ -1,13 +1,14 @@
 
 
 export class Task {
-    constructor(projID, taskID, title, description, dueDate, priority) {
+    constructor(projID, taskID, title, description, dueDate, priority, complete) {
         this.projID = projID;
         this.taskID = taskID;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.complete = complete;
     }
 }
 
@@ -18,7 +19,8 @@ const TaskModule = (function () {
 
     const addTask = (projID, title, description, dueDate, priority) => {
         let taskID = crypto.randomUUID();
-        const task = new Task(projID, taskID, title, description, dueDate, priority);
+        let complete = false;
+        const task = new Task(projID, taskID, title, description, dueDate, priority, complete);
         taskList.push(task);
     }
 
@@ -51,8 +53,16 @@ const TaskModule = (function () {
         }
     }
 
+    const changeCompleteStatus = (taskID) => {
+        for (let i = 0; i < taskList.length; i++) {
+            if (taskID === taskList[i].taskID) {
+                taskList[i].complete = !taskList[i].complete;
+            }
+        }
+    }
+
     return {
-        getTaskList, addTask, delProjectTasks, editTask, delTask
+        getTaskList, addTask, delProjectTasks, editTask, delTask, changeCompleteStatus
     }
 })();
 

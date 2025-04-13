@@ -1,4 +1,5 @@
-import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, handleEditTaskSubmit, getTaskList, delProj, getProjList, delProjTasks, delTask } from "./helper.js";
+import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, handleEditTaskSubmit,
+     getTaskList, delProj, getProjList, delProjTasks, delTask, changeCompleteStatus } from "./helper.js";
 import { addProjBtn, projContent, contentHeader, taskNav, taskContent, taskBtnSect} from "./index.js";
 import { ProjectModule } from "./project.js";
 import { TaskModule } from "./task.js";
@@ -160,20 +161,23 @@ const DOMController = (function() {
         currentProjID = projID;
     }
 
-    const generateTaskBox = (taskProjID, taskID, taskName, taskDescription, taskDueDate, taskPriority) => {
+    const generateTaskBox = (taskProjID, taskID, taskName, taskDescription, taskDueDate, taskPriority, taskComplete) => {
         
         //Create taskbox
         const taskBox = document.createElement("div");
         taskBox.id = "task-box";
         taskContent.appendChild(taskBox);
 
-        //Create checkbox
-        const checkboxDiv = document.createElement("div");
-        taskBox.appendChild(checkboxDiv);
-        
+        //Create checkbox      
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-        checkboxDiv.appendChild(checkbox);
+        determineCheckStatus(taskComplete, checkbox);
+        taskBox.appendChild(checkbox);
+        checkbox.addEventListener("change", () => {
+            changeCompleteStatus(taskID);
+            eraseTaskList();
+            generateTaskList(getTaskList());
+        });
 
         //Create priority color display
         const priorityDiv = document.createElement("div");
@@ -213,6 +217,12 @@ const DOMController = (function() {
         });
     }
 
+    const determineCheckStatus = (taskComplete, checkbox) => {
+        if (taskComplete) {
+            checkbox.defaultChecked = true;
+        }
+    }
+
     const generateTaskList = (taskList) => {
         const currentTaskList = getCurrentTaskList(taskList);
         for (let i = 0; i < currentTaskList.length; i++) {
@@ -222,7 +232,8 @@ const DOMController = (function() {
             let taskDescription = currentTaskList[i].description;
             let taskDueDate = currentTaskList[i].dueDate;
             let taskPriority = currentTaskList[i].priority;
-            generateTaskBox(taskProjID, taskID, taskName, taskDescription, taskDueDate, taskPriority);
+            let taskComplete = currentTaskList[i].complete;
+            generateTaskBox(taskProjID, taskID, taskName, taskDescription, taskDueDate, taskPriority, taskComplete);
         }
     }
 
