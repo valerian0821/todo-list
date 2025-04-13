@@ -21,7 +21,7 @@ const contentHeader = document.getElementById("content-header");
 const taskNav = document.getElementById("task-nav");
 const taskContent = document.getElementById("tasks-sect");
 const taskBtnSect = document.getElementById("task-btn-sect");
-DOMController.loadTaskHeader();
+DOMController.initializePage();
 addDefaultProj();
 printDefaultProj();
 DOMController.activateTaskNav();

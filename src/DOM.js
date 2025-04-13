@@ -30,6 +30,13 @@ const DOMController = (function() {
         });
     }
 
+    const initializePage = () => {
+        loadTaskHeader();
+        loadAddTaskBtn();
+        activateAddTaskBtn(currentProjID);
+        generateTaskList(getTaskList());
+    }
+
     const activateAddProjBtn = () => {
         addProjBtn.addEventListener("click", () => {
             createProjDialog();
@@ -276,7 +283,7 @@ const DOMController = (function() {
 
     return {
         loadTaskHeader, generateProjBox, generateProjList, activateAddProjBtn, eraseProjList, activateEditProjListener, 
-        generateCurrentProjBox, activateTaskNav, loadAddTaskBtn, activateAddTaskBtn, generateTaskList, eraseTaskList
+        generateCurrentProjBox, activateTaskNav, loadAddTaskBtn, activateAddTaskBtn, generateTaskList, eraseTaskList, initializePage
     }
 })();
 
