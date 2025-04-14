@@ -37,8 +37,14 @@ const ProjectModule = (function () {
         if (index !== -1) projectList.splice(index, 1);
     }
 
+    const getLocalStorageProjects = (storedProjList) => {
+        for (let i = 0; i < storedProjList.length; i++) {
+            projectList.push(storedProjList[i]);
+        }
+    }
+
     return {
-        getProjectList, addProject, changeProjName, delProj
+        getProjectList, addProject, changeProjName, delProj, getLocalStorageProjects
     }
 })();
 

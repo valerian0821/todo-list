@@ -36,7 +36,10 @@ const DOMController = (function() {
         loadTaskHeader();
         loadAddTaskBtn();
         activateAddTaskBtn(currentProjID);
+        activateTaskNav();
+        activateAddProjBtn();
         generateTaskList(getTaskList());
+        generateProjList(getProjList());
     }
 
     const activateAddProjBtn = () => {

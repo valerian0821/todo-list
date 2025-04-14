@@ -61,8 +61,14 @@ const TaskModule = (function () {
         }
     }
 
+    const getLocalStorageTasks = (storedTaskList) => {
+        for (let i = 0; i < storedTaskList.length; i++) {
+            taskList.push(storedTaskList[i]);
+        }
+    }
+
     return {
-        getTaskList, addTask, delProjectTasks, editTask, delTask, changeCompleteStatus
+        getTaskList, addTask, delProjectTasks, editTask, delTask, changeCompleteStatus, getLocalStorageTasks
     }
 })();
 
