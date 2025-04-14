@@ -3,6 +3,7 @@ import { handleProjSubmit, handleEditProjSubmit, handleTaskSubmit, handleEditTas
 import { addProjBtn, projContent, contentHeader, taskNav, taskContent, taskBtnSect} from "./index.js";
 import { ProjectModule } from "./project.js";
 import { TaskModule } from "./task.js";
+import { differenceInDays } from "date-fns";
 
 const DOMController = (function() {
     let currentProjID = "solo";
@@ -194,7 +195,7 @@ const DOMController = (function() {
         displayDiv.appendChild(title);
 
         const dueDate = document.createElement("p");
-        dueDate.textContent = taskDueDate;
+        displayDueDate(taskDueDate, dueDate);
         displayDiv.appendChild(dueDate);
 
         //Create edit and delete button
@@ -235,6 +236,31 @@ const DOMController = (function() {
         } else {
             priorityDiv.classList.toggle("high-priority", true);
         }
+    }
+
+    const displayDueDate = (taskDueDate, dueDate) => {
+        if (taskDueDate === "") {
+            dueDate.textContent = "No Due Date";
+        } else {
+            const taskYear = taskDueDate.substring(0, 4);
+            const taskMonth = taskDueDate.substring(5, 7);
+            const taskDay = taskDueDate.substring(8, 10);
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const currentDay = String(currentDate.getDate()).padStart(2, '0');
+            const { differenceInDays } = require("date-fns");
+            const result = differenceInDays(new Date(taskYear, taskMonth, taskDay), new Date(currentYear, currentMonth, currentDay));
+            if (result === 0) {
+                dueDate.textContent = "Due Today";
+            } else if (result < 0) {
+                dueDate.textContent = "Overdue";
+            } else if (result === 1) {
+                dueDate.textContent = "Due Tomorrow";
+            } else {
+                dueDate.textContent = `Due in ${result} Days`;
+            }
+        }    
     }
 
     const generateTaskList = (taskList) => {
