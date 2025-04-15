@@ -4,6 +4,9 @@ import { addProjBtn, projContent, contentHeader, taskNav, taskContent, taskBtnSe
 import { ProjectModule } from "./project.js";
 import { TaskModule } from "./task.js";
 import { differenceInDays } from "date-fns";
+import folderIcon from "./img/folder.svg";
+import pencilIcon from "./img/pencil.svg";
+import deleteIcon from "./img/delete.svg";
 
 const DOMController = (function() {
     let currentProjID = "solo";
@@ -65,15 +68,15 @@ const DOMController = (function() {
     const createProjForm = (projName = "") => {
         let innerDialog = `
             <form id="proj-form" method="post">
-                <div>
-                    <button type="button" id="close-proj-btn">X</button>
+                <div class="align-right">
+                    <button type="button" class="exit-dialog-btn" id="close-proj-btn">X</button>
                 </div>
-                <div>
+                <div class="form-format">
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" value="${projName}"required>
                 </div>
-                <div>
-                    <button type="submit">Enter</button>
+                <div class="align-center">
+                    <button type="submit" class="submit-btn">Enter</button>
                 </div>
             </form>`;
         return innerDialog;
@@ -93,13 +96,19 @@ const DOMController = (function() {
         });
     }
 
-    const generateProjBox = (projName, projNumber, projID) => {
+    const generateProjBox = (projName, projID) => {
         const projBox = document.createElement("div");
-        projBox.classList.add("projBox");
+        projBox.classList.add("proj-box");
         projContent.appendChild(projBox);
 
+        const folderImg = document.createElement("img");
+        folderImg.src = folderIcon;
+        folderImg.alt = "Folder Image";
+        projBox.appendChild(folderImg);
+        
         const projText = document.createElement("p");
-        projText.textContent = `${projNumber}. ${projName}`;
+        projText.classList.add("highlight");
+        projText.textContent = `${projName}`;
         projBox.appendChild(projText);
 
         projText.addEventListener("click", () => {
@@ -118,18 +127,20 @@ const DOMController = (function() {
         removeContentHeader();
 
         const projHeader = document.createElement("h1");
+        projHeader.id = "proj-title";
         projHeader.textContent = projName;
         contentHeader.appendChild(projHeader);
 
         const projEditBtn = document.createElement("button");
-        projEditBtn.textContent = "Edit";
+        projEditBtn.id = "proj-edit-btn";
+        createEditIcon(projEditBtn);
         contentHeader.appendChild(projEditBtn);
         projEditBtn.addEventListener("click", () => {
             editProjName(projID, projName);
         });
 
         const projDelBtn = document.createElement("button");
-        projDelBtn.textContent = "Delete";
+        createDelIcon(projDelBtn);
         contentHeader.appendChild(projDelBtn);
         projDelBtn.addEventListener("click", () => {
             delProj(projID);
@@ -143,6 +154,20 @@ const DOMController = (function() {
         });
     }
 
+    const createEditIcon = (container) => {
+        const pencilImg = document.createElement("img");
+        pencilImg.src = pencilIcon;
+        pencilImg.alt = "Edit Icon";
+        container.appendChild(pencilImg);
+    }
+
+    const createDelIcon = (container) => {
+        const delImg = document.createElement("img");
+        delImg.src = deleteIcon;
+        delImg.alt = "Delete Icon";
+        container.appendChild(delImg);
+    }
+
     const editProjName = (projID, projName) => {
         createProjDialog(projName);
         activateEditProjListener(projID);
@@ -150,10 +175,9 @@ const DOMController = (function() {
 
     const generateProjList = (projList) => {
         for (let i = 0; i < projList.length; i++) {
-            let projNumber = i + 1;
             let projName = projList[i].name;
             let projID = projList[i].id;
-            generateProjBox(projName, projNumber, projID);
+            generateProjBox(projName, projID);
         }
     }
 
@@ -174,6 +198,7 @@ const DOMController = (function() {
 
         //Create checkbox      
         const checkbox = document.createElement("input");
+        checkbox.id = "checkbox";
         checkbox.type = "checkbox";
         determineCheckStatus(taskComplete, checkbox);
         taskBox.appendChild(checkbox);
@@ -191,29 +216,33 @@ const DOMController = (function() {
 
         //Create title and dueDate display
         const displayDiv = document.createElement("div");
+        displayDiv.id = "display-div";
         taskBox.appendChild(displayDiv);
 
         const title = document.createElement("p");
+        title.id = "task-title";
         title.textContent = taskName;
         displayDiv.appendChild(title);
 
         const dueDate = document.createElement("p");
+        dueDate.id = "task-due-date";
         displayDueDate(taskDueDate, dueDate);
         displayDiv.appendChild(dueDate);
 
         //Create edit and delete button
         const editDelDiv = document.createElement("div");
+        editDelDiv.id = "edit-del-box";
         taskBox.appendChild(editDelDiv);
 
         const editBtn = document.createElement("button");
-        editBtn.textContent = "E";
+        createEditIcon(editBtn);
         editDelDiv.appendChild(editBtn);
         editBtn.addEventListener("click", () => {
             editTask(taskID, taskName, taskDescription, taskDueDate, taskPriority);
         });
 
         const delBtn = document.createElement("button");
-        delBtn.textContent = "D";
+        createDelIcon(delBtn);
         editDelDiv.appendChild(delBtn);
         delBtn.addEventListener("click", () => {
             delTask(taskID);
@@ -287,6 +316,7 @@ const DOMController = (function() {
     const loadAddTaskBtn = () => {
         const addTaskBtn = document.createElement("button");
         addTaskBtn.id = "add-task-btn";
+        addTaskBtn.classList.add("highlight");
         addTaskBtn.textContent = "+";
         taskBtnSect.appendChild(addTaskBtn);
     }
@@ -316,22 +346,22 @@ const DOMController = (function() {
     const createTaskForm = (title = "", description = "", dueDate = "", priority = "") => {
         let innerDialog = `
             <form id="task-form" method="post">
-                <div>
-                    <button type="button" id="close-task-btn">X</button>
+                <div class="align-right">
+                    <button type="button" class="exit-dialog-btn" id="close-task-btn">X</button>
                 </div>
-                <div>
+                <div class="form-format">
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" value="${title}" required>        
                 </div>
-                <div>
+                <div class="form-format">
                     <label for="description">Description:</label>
                     <textarea id="description" name="description" rows="5" cols="40">${description}</textarea>
                 </div>
-                <div>
+                <div class="form-format">
                     <label for="due-date">Due Date:</label>
                     <input type="date" id="due-date" name="due-date" value="${dueDate}">
                 </div>
-                <div>
+                <div class="form-format">
                     <label for="priority">Priority:</label>
                     <select id="priority" name="priority" required>
                         <option value="low" ${priority === "low" ? "selected" : ""}>Low</option>
@@ -339,8 +369,8 @@ const DOMController = (function() {
                         <option value="high" ${priority === "high" ? "selected" : ""}>High</option>
                     </select>
                 </div>
-                <div>
-                    <button type="submit">Enter</button>
+                <div class="align-center">
+                    <button type="submit" class="submit-btn">Enter</button>
                 </div>
             </form>`;
         return innerDialog;

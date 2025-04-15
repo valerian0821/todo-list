@@ -13,17 +13,79 @@ body {
     grid-template-columns: 1fr 3fr;
 }
 
-div {
-    border: 1px solid black;
-}
-
 h1 {
     font-weight: bold;
     font-size: 3rem;
 }
 
+button {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+img {
+    width: 20px;
+    height: 20px;
+}
+
+dialog {
+    position: fixed; /* Ensures the dialog stays in place relative to the viewport */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the dialog horizontally and vertically */
+    border: none; /* Optional: Removes the default border */
+    padding: 20px; /* Adds spacing inside the dialog */
+    background-color: white; /* Sets a background color for visibility */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for better aesthetics */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-weight: bold;
+}
+
+.exit-dialog-btn {
+    background-color: red;
+    width: 25px;
+    height: 25px;
+    border-radius: 0%;
+}
+
+.submit-btn {
+    width: 60px;
+    height: 30px;
+    border-radius: 0%;
+}
+
 .proj-box {
-    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 200px;
+    height: 40px;
+    gap: 5px;
+}
+
+.form-format {
+    display: flex;
+    flex-direction: column;
+}
+
+.highlight:hover {
+    font-weight: bold;
+}
+
+.align-right {
+    display: flex;
+    justify-content: right;
+}
+
+.align-center {
+    display: flex;
+    justify-content: center;
 }
 
 .low-priority {
@@ -31,33 +93,125 @@ h1 {
 }
 
 .medium-priority {
-    background-color: yellow;
+    background-color: orange;
 }
 
 .high-priority {
     background-color: red;
 }
 
+#nav-sect {
+    border-right: 3px solid black;
+}
+
 #nav-bar {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-left: 20px;
+    margin-top: 50px;
 }
 
 #proj-header {
     display: flex;
+    margin-top: 20px;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+}
+
+#proj-title {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#content-sect {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#content-header {
+    border-bottom: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    gap: 5px;
+}
+
+#task-btn-sect {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+}
+
+#tasks-sect {
+    width: 500px;
+    height: 100%;
+}
+
+#task-header {
+    padding: 10px;
+}
+
+#tasks-sect {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 #task-box {
+    border: 1px solid black;
     display: flex;
-    gap: 10px;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    gap: 30px;
+    padding: 10px;
+}
+
+#checkbox {
+    width: 20px;
+    height: 20px;
 }
 
 #priority-box {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: auto;
+}
+
+#display-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#task-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+#task-due-date {
+    font-style: italic;
 }
 
 #edit-del-box {
     display: flex;
+    gap: 5px;
+    margin-left: auto;
+}
+
+#description-div {
+    display: flex;
+    align-items: start;
 }

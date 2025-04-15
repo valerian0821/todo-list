@@ -6,22 +6,25 @@
     <title>To-Do List</title>
 </head>
 <body>
-    <div id="nav-bar">
-        <div>
-            <h1>Tasks</h1>
-        </div>
-        <div>
-            <p id="task-nav">Solo Tasks</p>
-        </div>
-        <div id="proj-header">
-            <h1>Projects</h1>
-            <button id="add-proj-btn">+</button>
-        </div>
-        <div id="proj-content">
-
-        </div>
+    <div id="nav-sect">
+        <div id="nav-bar">
+            <div>
+                <h1 id="task-header">Tasks</h1>
+            </div>
+            <div class="proj-box">
+                <img src="./img/clipboard.svg" alt="Task Icon">
+                <p class="highlight" id="task-nav">Solo Tasks</p>
+            </div>
+            <div id="proj-header">
+                <h1>Projects</h1>
+                <button class="highlight" id="add-proj-btn">+</button>
+            </div>
+            <div id="proj-content">
+    
+            </div>
+        </div>  
     </div>
-    <div id="content">
+    <div id="content-sect">
         <div id="content-header">
 
         </div>
@@ -32,31 +35,5 @@
 
         </div>
     </div>
-
-    <!-- <form id="task-form" method="post">
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>        
-        </div>
-        <div>
-            <label for="description">Description:</label>
-            <input type="textarea" id="description" name="description" rows="5" cols="40" required>
-        </div>
-        <div>
-            <label for="due-date">Due Date:</label>
-            <input type="date" id="due-date" name="due-date">
-        </div>
-        <div>
-            <label for="priority">Priority:</label>
-            <select id="priority" name="priority" required>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
-        </div>
-        <div>
-            <button type="submit">Enter</button>
-        </div>
-    </form> -->
 </body>
 </html>
